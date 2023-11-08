@@ -14,7 +14,7 @@ you rotate the game board to make the blob fall into the end point.
 2. GLFW
 3. SDL2
 
-Note : Math Header Created by Zb1ndev ( Me )
+Note : Math Header Created by Zbindev ( Me )
 
 ### Resources :
 1. https://learnopengl.com/
