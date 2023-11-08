@@ -1,5 +1,9 @@
 # Turnz
 
+### Why Make this
+This was made for an Advanced Programming class to learn low-level programming and 
+learn how a game engine might be structured.
+
 ### About Turnz 
 Turnz is a project based on the SDSU 2014 Programmung Design Competition problem.
 The game consists of a  11 x 11 grid and a blob. The premise of the game is, 
