@@ -11,8 +11,7 @@ you rotate the game board to make the blob fall into the end point.
 
 ### Libraries Used :
 1. OpenGL
-2. GLFW
-3. SDL2
+2. SDL2
 
 Note : Math Header Created by Zbindev ( Me )
 
