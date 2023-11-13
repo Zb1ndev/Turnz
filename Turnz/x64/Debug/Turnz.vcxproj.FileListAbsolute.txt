@@ -1,1 +1,2 @@
 C:\dev\Zen-OS\Turnz\Turnz\x64\Debug\Turnz.exe
+C:\dev\Turnz\Turnz\x64\Debug\Turnz.exe
