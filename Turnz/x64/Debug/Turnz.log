@@ -1,2 +1,5 @@
-﻿  main.cpp
+﻿  application.cpp
+  main.cpp
+  Generating Code...
+C:\dev\Turnz\Turnz\src\application\application.cpp(29): warning C4715: 'Application::Init': not all control paths return a value
   Turnz.vcxproj -> C:\dev\Turnz\Turnz\x64\Debug\Turnz.exe
