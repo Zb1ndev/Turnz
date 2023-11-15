@@ -1,9 +1,16 @@
 #include <SDL.h>
 #include <iostream>
 
+
 #include "input/input.h"
 #include "application/application.h"
 #include "renderer/renderer.h"
+
+void Update() {
+
+
+
+}
 
 int main(int argc, char** argv) {
 
@@ -18,11 +25,7 @@ int main(int argc, char** argv) {
 
 }
 
-void Update() {
 
-
-
-}
 
 
 

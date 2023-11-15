@@ -1,4 +1,5 @@
 C:\dev\Turnz\Turnz\src\application\application.cpp;C:\dev\Turnz\Turnz\x64\Debug\application.obj
 C:\dev\Turnz\Turnz\src\input\input.cpp;C:\dev\Turnz\Turnz\x64\Debug\input.obj
 C:\dev\Turnz\Turnz\src\main.cpp;C:\dev\Turnz\Turnz\x64\Debug\main.obj
-C:\dev\Turnz\Turnz\src\math\math.cpp;C:\dev\Turnz\Turnz\x64\Debug\math.obj
+C:\dev\Turnz\Turnz\src\math - Deprecated\math.cpp;C:\dev\Turnz\Turnz\x64\Debug\math.obj
+C:\dev\Turnz\Turnz\src\renderer\renderer.cpp;C:\dev\Turnz\Turnz\x64\Debug\renderer.obj

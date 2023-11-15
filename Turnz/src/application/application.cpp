@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_opengl.h>
 #include <iostream>
 #include "application.h"
 
@@ -26,11 +27,13 @@ const char* Application::Init(const char* title, int w, int h) {
 	glContext = SDL_GL_CreateContext(window);
 	if (glContext == NULL) return "Failed to grab OpenGL Context";
 
+	std::cout << glGetString(GL_VENDOR);
+
 }
 void Application::Close() {
 
 	SDL_DestroyWindow(window);
-	free(&window);
+	window = NULL;
 	SDL_Quit();
 
 }
