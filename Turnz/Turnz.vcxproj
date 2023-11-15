@@ -138,11 +138,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\application\application.cpp" />
+    <ClCompile Include="src\input\input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\application.h" />
+    <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\math\math.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
