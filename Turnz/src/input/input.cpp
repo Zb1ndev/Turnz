@@ -10,7 +10,19 @@ bool Input::GetInput(Input::KeyCode key) {
 			// App Buttons
 			case Input::KeyCode::QUIT:
 				return event.type == SDL_QUIT;
+			case Input::KeyCode::ANY:
+				return event.type == SDL_KEYDOWN;
 			// Keyboard Input
+			case Input::KeyCode::RIGHT_ALT:
+				return event.key.keysym.sym == SDLK_RALT;
+			case Input::KeyCode::LEFT_ALT:
+				return event.key.keysym.sym == SDLK_LALT;
+			case Input::KeyCode::ENTER:
+				return event.key.keysym.sym == SDLK_RETURN;
+			case Input::KeyCode::TAB:
+				return event.key.keysym.sym == SDLK_TAB;
+			case Input::KeyCode::BACKSPACE:
+				return event.key.keysym.sym == SDLK_BACKSPACE;
 			case Input::KeyCode::SPACE:
 				return event.key.keysym.sym == SDLK_SPACE;
 			case Input::KeyCode::ESCAPE:

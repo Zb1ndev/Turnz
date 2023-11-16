@@ -5,21 +5,25 @@
 #include "application/application.h"
 #include "renderer/renderer.h"
 
+void Start() {
+
+	
+
+}
+
 void Update() {
+	
+
+
+}
+
+void OnClose() {
 
 
 
 }
 
 int main(int argc, char** argv) {
-
-	Application app = Application("Turnz", 640, 480);
-	while (!Input::GetInput(Input::KeyCode::QUIT)) {
-		Update();
-		Renderer::Render();
-		SDL_GL_SwapWindow(app.window); 
-	} 
-	app.Close();
+	Application app = Application("Turnz", 640, 480, &Start, &Update, &OnClose);
 	return 0;
-
 }

@@ -2,6 +2,8 @@
 #include <GLAD/glad.h>
 #include <iostream>
 #include "application.h"
+#include "../renderer/renderer.h"
+#include "../input/input.h"
 
 const char* Application::Init(const char* title, int w, int h) {
 
@@ -38,8 +40,16 @@ void Application::Close() {
 
 }
 
-Application::Application(const char* title, int w, int h) {
+Application::Application(const char* title, int w, int h, void (*startPointer)() = NULL, void (*updatePointer)() = NULL, void (*onClosePointer)() = NULL) {
 	Init(title, w, h);
+	if(startPointer!=NULL) startPointer();
+	while (!Input::GetInput(Input::KeyCode::QUIT)) {
+		if (updatePointer != NULL) updatePointer();
+		Renderer::Render();
+		SDL_GL_SwapWindow(window);
+	}
+	if (onClosePointer != NULL) onClosePointer();
+	Close();
 }
 Application::~Application(){}
 
