@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "input.h"
 
 bool Input::GetInput(Input::KeyCode key) {

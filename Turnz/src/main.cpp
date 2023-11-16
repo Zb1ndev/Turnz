@@ -1,6 +1,5 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <iostream>
-
 
 #include "input/input.h"
 #include "application/application.h"
