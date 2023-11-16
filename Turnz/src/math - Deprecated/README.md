@@ -1,4 +1,4 @@
-## Deprecated
+# Deprecated
 This is a deprecated class meaning I do not intend for it to be used.
 
 ## Reason its still in the project
