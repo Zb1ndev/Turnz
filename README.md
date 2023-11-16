@@ -17,4 +17,5 @@ Note : Math Header Created by Zbindev ( Me )
 
 ### Resources :
 1. https://learnopengl.com/
+2. https://www.youtube.com/playlist?list=PLvv0ScY6vfd9zlZkIIqGDeG5TUWswkMox
 
