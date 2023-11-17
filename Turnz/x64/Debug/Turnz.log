@@ -1,3 +1,1 @@
-﻿  application.cpp
-C:\Users\joel.zbinden\Documents\GitHub\Turnz\Turnz\src\application\application.cpp(34): warning C4715: 'Application::Init': not all control paths return a value
-  Turnz.vcxproj -> C:\Users\joel.zbinden\Documents\GitHub\Turnz\Turnz\x64\Debug\Turnz.exe
+﻿LINK : fatal error LNK1104: cannot open file 'kernel32.lib'

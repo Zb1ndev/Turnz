@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\joel.zbinden\Documents\GitHub\Turnz\Turnz\deps\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\joel.zbinden\Documents\GitHub\Turnz\Turnz\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\dev\Turnz\Turnz\deps\include</IncludePath>
+    <LibraryPath>C:\dev\Turnz\Turnz\deps\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\dev\Turnz\Turnz\deps\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\dev\Turnz\Turnz\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\dev\Turnz\Turnz\deps\include</IncludePath>
+    <LibraryPath>C:\dev\Turnz\Turnz\deps\lib</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
