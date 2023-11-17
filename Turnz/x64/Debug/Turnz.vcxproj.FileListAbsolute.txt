@@ -1,3 +1,0 @@
-C:\dev\Zen-OS\Turnz\Turnz\x64\Debug\Turnz.exe
-C:\dev\Turnz\Turnz\x64\Debug\Turnz.exe
-C:\Users\joel.zbinden\Documents\GitHub\Turnz\Turnz\x64\Debug\Turnz.exe
