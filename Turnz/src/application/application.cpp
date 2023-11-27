@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <GLAD/glad.h>
 #include <iostream>
+#include <vector>
 #include "application.h"
 #include "../renderer/renderer.h"
 #include "../input/input.h"
@@ -19,7 +20,7 @@ const char* Application::Init(const char* title, int w, int h) {
 
 	// Create Window
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, 
-		SDL_WINDOW_SHOWN | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE| 
+		SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE| 
 		SDL_WINDOW_KEYBOARD_GRABBED | SDL_WINDOW_MOUSE_CAPTURE | SDL_WINDOW_OPENGL
 	);
 	if (window == NULL) return "Failed to Create Window";
@@ -32,6 +33,7 @@ const char* Application::Init(const char* title, int w, int h) {
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) return "GLAD was not initialized";
 
 }
+
 void Application::Close() {
 
 	SDL_DestroyWindow(window);
@@ -41,13 +43,20 @@ void Application::Close() {
 }
 
 Application::Application(const char* title, int w, int h, void (*startPointer)() = NULL, void (*updatePointer)() = NULL, void (*onClosePointer)() = NULL) {
+
 	Init(title, w, h);
+
+	renderer.VertexSpecification();
+	renderer.CreateGraphicsPipline();
+
 	if(startPointer!=NULL) startPointer();
+
 	while (!Input::GetInput(Input::KeyCode::QUIT)) {
 		if (updatePointer != NULL) updatePointer();
-		Renderer::Render();
+		renderer.Render(w,h);
 		SDL_GL_SwapWindow(window);
 	}
+
 	if (onClosePointer != NULL) onClosePointer();
 	Close();
 }
