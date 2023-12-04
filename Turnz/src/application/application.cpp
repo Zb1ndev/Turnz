@@ -42,10 +42,19 @@ void Application::Close() {
 
 }
 
-Application::Application(const char* title, int w, int h, void (*startPointer)() = NULL, void (*updatePointer)() = NULL, void (*onClosePointer)() = NULL) {
+Application::Application(
+	const char* title, 
+	int w, int h, 
+	std::string vertexShaderDirectory,
+	std::string fragmentShaderDirectory,
+	void (*startPointer)(), 
+	void (*updatePointer)(), 
+	void (*onClosePointer)()
+){
 
-	Init(title, w, h);
+	Init(title, w, h); 
 
+	renderer = Renderer(vertexShaderDirectory, fragmentShaderDirectory);
 	renderer.VertexSpecification();
 	renderer.CreateGraphicsPipline();
 

@@ -11,7 +11,16 @@ public:
 	SDL_GLContext glContext = nullptr;
 	Renderer renderer;
 
-	Application(const char *title, int w, int h, void (*startPointer)(), void (*updatePointer)(), void (*onClosePointer)());
+	Application() = default;
+	Application(
+		const char* title,
+		int w, int h,
+		std::string vertexShaderDirectory,
+		std::string fragmentShaderDirectory,
+		void (*startPointer)() = NULL,
+		void (*updatePointer)() = NULL,
+		void (*onClosePointer)() = NULL
+	);
 	~Application();
 
 private:

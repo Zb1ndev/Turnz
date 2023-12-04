@@ -1,9 +1,19 @@
 #include <SDL2/SDL.h>
 #include <GLAD/glad.h>
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
 
 #include "renderer.h"
+
+Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir) {
+	gVertShaderDir = vertShaderDir;
+	gFragShaderDir = fragShaderDir;
+}
+void Renderer::Render(GLsizei height, GLsizei width) {
+	Draw(height, width);
+}
 void Renderer::Draw(GLsizei height, GLsizei width) {
 
 	// Pre Draw
@@ -23,32 +33,40 @@ void Renderer::Draw(GLsizei height, GLsizei width) {
 
 
 }
+
 void Renderer::VertexSpecification() {
 
-	const std::vector<GLfloat> vertexPositions{
-		-0.8f, -0.8f, 0.0f,
-		0.8f, -0.8f, 0.0f,
-		0.0f, 0.8f, 0.0f,
+	const std::vector<GLfloat> vertexData{
+		-0.5f, -0.5f, 0.0f,
+		 1.0f, 0.0f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f, 1.0f, 0.0f,
+		 0.0f,  0.5f, 0.0f,
+		 0.0f, 0.0f, 1.0f
 	};
 
 	glGenVertexArrays(1, &gVertexArrayObject);
 	glBindVertexArray(gVertexArrayObject);
-	
+
 	glGenBuffers(1, &gVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
 
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		vertexPositions.size() * sizeof(GLfloat),
-		vertexPositions.data(),
+		vertexData.size() * sizeof(GLfloat),
+		vertexData.data(),
 		GL_STATIC_DRAW
 	);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glEnableVertexAttribArray(0); // Position
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (void*)0);
+
+	glEnableVertexAttribArray(1); // Color
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (void*)(sizeof(GL_FLOAT) * 3));
 
 	glBindVertexArray(0);
 	glDisableVertexAttribArray(0);
+
 
 }
 GLuint Renderer::CompileShader(GLuint type, const char* shaderSource) {
@@ -74,24 +92,24 @@ GLuint Renderer::CreateShaderProgram(const char* vertexShader, const char* fragm
 	return progObj;
 
 }
+std::string Renderer::LoadShaderFromFile(std::string fileDir) {
+
+	std::string result = "";
+	std::string line = "";
+	std::fstream myFile(fileDir.c_str());
+	if (myFile.is_open()) {
+		while (std::getline(myFile, line)) {
+			result += line + "\n";
+		}
+	}
+	myFile.close();
+	return result;
+
+}
 void Renderer::CreateGraphicsPipline() {
-
-	const char* vs = "#version 410 core\n"
-					 "in vec4 position;\n"
-					 "void main()\n"
-					 "{\n"
-					 "	gl_Position = vec4(position.x, position.y, position.z, position.w);\n"
-					 "}\n";
-	const char* fs = "#version 410 core\n"
-					 "out vec4 color;\n"
-					 "void main()\n"
-					 "{\n"
-					 "	color = vec4(1.0f,1.0f,1.0f,1.0f);\n"
-					 "}\n";
-
-	gGPShaderProgram = CreateShaderProgram(vs, fs);
-
+	gGPShaderProgram = CreateShaderProgram(
+		LoadShaderFromFile(gVertShaderDir).c_str(),
+		LoadShaderFromFile(gFragShaderDir).c_str()
+	);
 }
-void Renderer::Render(GLsizei height, GLsizei width) {
-	Draw(height,width);
-}
+
