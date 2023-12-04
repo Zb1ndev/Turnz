@@ -12,5 +12,6 @@ public:
 		ENTER, TAB, LEFT_ALT, RIGHT_ALT, BACKSPACE
 	};
 	bool static GetInput(KeyCode key);
+	static SDL_Event event;
 
 };

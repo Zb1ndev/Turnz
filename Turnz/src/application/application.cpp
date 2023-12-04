@@ -50,7 +50,7 @@ Application::Application(
 	void (*startPointer)(), 
 	void (*updatePointer)(), 
 	void (*onClosePointer)()
-){
+){ 
 
 	Init(title, w, h); 
 
@@ -61,6 +61,7 @@ Application::Application(
 	if(startPointer!=NULL) startPointer();
 
 	while (!Input::GetInput(Input::KeyCode::QUIT)) {
+		SDL_PollEvent(&Input::event);
 		if (updatePointer != NULL) updatePointer();
 		renderer.Render(w,h);
 		SDL_GL_SwapWindow(window);

@@ -1,11 +1,13 @@
 #include <SDL2/SDL.h>
 #include <GLAD/glad.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 
 #include "renderer.h"
+#include "../application/application.h"
 
 Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir) {
 	gVertShaderDir = vertShaderDir;
@@ -15,6 +17,8 @@ void Renderer::Render(GLsizei height, GLsizei width) {
 	Draw(height, width);
 }
 void Renderer::Draw(GLsizei height, GLsizei width) {
+
+
 
 	// Pre Draw
 	glDisable(GL_DEPTH_TEST);
@@ -32,10 +36,10 @@ void Renderer::Draw(GLsizei height, GLsizei width) {
 	// glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDrawElements(
 		GL_TRIANGLES, 
-		6, GL_UNSIGNED_INT, 
+		10, // Change to Scene.GetVerticies.size
+		GL_UNSIGNED_INT, 
 		(void*)0
 	);
-
 
 }
 
@@ -52,8 +56,20 @@ void Renderer::VertexSpecification() {
 		 -0.5f,  0.5f, 0.0f, // 2 | Position
 		 0.0f, 0.0f, 1.0f,   // 2 | Color 
 
-		 0.5f, 0.5f, 0.0f,   // 3 | Position
+		 0.5f, 0.1f, 0.0f,   // 3 | Position
 		 0.0f, 1.0f, 1.0f,   // 3 | Color
+
+		 -0.5f, -0.5f, 0.0f,  // 4 | Position
+		 1.0f, 0.0f, 0.0f,   // 4 | Color
+
+		 0.9f, 0.9f, 0.0f,  // 5 | Position
+		 0.0f, 1.0f, 0.0f,   // 5 | Color
+
+		 0.95f,  0.9f, 0.0f, // 6 | Position
+		 0.0f, 0.0f, 1.0f,   // 6 | Color 
+
+		 0.9f, 0.95f, 0.0f,   // 7 | Position
+		 0.0f, 1.0f, 1.0f,   // 7 | Color
 
 	};
 
@@ -67,12 +83,13 @@ void Renderer::VertexSpecification() {
 		GL_ARRAY_BUFFER,
 		vertexData.size() * sizeof(GLfloat),
 		vertexData.data(),
-		GL_STATIC_DRAW
+		GL_DYNAMIC_DRAW
 	);
 
 	const std::vector<GLuint> indexBufferData {
 		2,0,1, 
-		3,2,1
+		3,2,1,
+		5,6,7
 	};
 
 	glGenBuffers(1, &gIndexBufferObject);
@@ -81,7 +98,7 @@ void Renderer::VertexSpecification() {
 		GL_ELEMENT_ARRAY_BUFFER,
 		indexBufferData.size() * sizeof(GLuint),
 		indexBufferData.data(),
-		GL_STATIC_DRAW
+		GL_DYNAMIC_DRAW
 	);
 
 	glEnableVertexAttribArray(0); // Position
@@ -93,7 +110,6 @@ void Renderer::VertexSpecification() {
 	glBindVertexArray(0);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
-
 
 }
 GLuint Renderer::CompileShader(GLuint type, const char* shaderSource) {
@@ -124,11 +140,9 @@ std::string Renderer::LoadShaderFromFile(std::string fileDir) {
 	std::string result = "";
 	std::string line = "";
 	std::fstream myFile(fileDir.c_str());
-	if (myFile.is_open()) {
-		while (std::getline(myFile, line)) {
+	if (myFile.is_open())
+		while (std::getline(myFile, line))
 			result += line + "\n";
-		}
-	}
 	myFile.close();
 	return result;
 

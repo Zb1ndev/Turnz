@@ -1,4 +1,6 @@
 #include <SDL2/SDL.h>
+#include <GLAD/glad.h>
+
 #include <iostream>
 
 #include "input/input.h"
@@ -11,10 +13,13 @@ void Start() {
 
 }
 
+bool filled = true;
 void Update() {
+
+	if (Input::GetInput(Input::A))
+		filled = !filled;
+	glPolygonMode(GL_FRONT, filled ? GL_LINE : GL_FILL);
 	
-
-
 }
 
 void OnClose() {
@@ -34,5 +39,7 @@ int main(int argc, char** argv) {
 		&Update, 
 		&OnClose
 	);
+
 	return 0;
+
 }

@@ -2,10 +2,10 @@
 #include <SDL2/SDL.h>
 #include <GLAD/glad.h>
 #include <iostream>
+#include <vector>
 #include <string>
 
 class Renderer {
-
 public:
 
 	Renderer() = default;

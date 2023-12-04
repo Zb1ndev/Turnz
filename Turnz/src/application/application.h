@@ -11,6 +11,8 @@ public:
 	SDL_GLContext glContext = nullptr;
 	Renderer renderer;
 
+	int width, height;
+
 	Application() = default;
 	Application(
 		const char* title,
