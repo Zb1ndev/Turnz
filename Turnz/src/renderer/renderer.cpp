@@ -29,7 +29,12 @@ void Renderer::Draw(GLsizei height, GLsizei width) {
 	// Draw
 	glBindVertexArray(gVertexArrayObject);
 	glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	// glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(
+		GL_TRIANGLES, 
+		6, GL_UNSIGNED_INT, 
+		(void*)0
+	);
 
 
 }
@@ -37,12 +42,19 @@ void Renderer::Draw(GLsizei height, GLsizei width) {
 void Renderer::VertexSpecification() {
 
 	const std::vector<GLfloat> vertexData{
-		-0.5f, -0.5f, 0.0f,
-		 1.0f, 0.0f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f, 1.0f, 0.0f,
-		 0.0f,  0.5f, 0.0f,
-		 0.0f, 0.0f, 1.0f
+
+		-0.5f, -0.5f, 0.0f,  // 0 | Position
+		 1.0f, 0.0f, 0.0f,   // 0 | Color
+
+		 0.5f, -0.5f, 0.0f,  // 1 | Position
+		 0.0f, 1.0f, 0.0f,   // 1 | Color
+
+		 -0.5f,  0.5f, 0.0f, // 2 | Position
+		 0.0f, 0.0f, 1.0f,   // 2 | Color 
+
+		 0.5f, 0.5f, 0.0f,   // 3 | Position
+		 0.0f, 1.0f, 1.0f,   // 3 | Color
+
 	};
 
 	glGenVertexArrays(1, &gVertexArrayObject);
@@ -58,6 +70,20 @@ void Renderer::VertexSpecification() {
 		GL_STATIC_DRAW
 	);
 
+	const std::vector<GLuint> indexBufferData {
+		2,0,1, 
+		3,2,1
+	};
+
+	glGenBuffers(1, &gIndexBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObject);
+	glBufferData(
+		GL_ELEMENT_ARRAY_BUFFER,
+		indexBufferData.size() * sizeof(GLuint),
+		indexBufferData.data(),
+		GL_STATIC_DRAW
+	);
+
 	glEnableVertexAttribArray(0); // Position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (void*)0);
 
@@ -66,6 +92,7 @@ void Renderer::VertexSpecification() {
 
 	glBindVertexArray(0);
 	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 
 
 }

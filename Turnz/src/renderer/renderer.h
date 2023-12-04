@@ -18,6 +18,7 @@ private:
 
 	GLuint gVertexArrayObject = 0;
 	GLuint gVertexBufferObject = 0;
+	GLuint gIndexBufferObject = 0;
 	GLuint gGPShaderProgram = 0;
 
 	std::string gVertShaderDir;
