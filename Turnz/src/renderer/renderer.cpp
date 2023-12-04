@@ -9,22 +9,24 @@
 #include "renderer.h"
 #include "../application/application.h"
 
-Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir) {
+Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir, GLsizei height, GLsizei width) {
 	gVertShaderDir = vertShaderDir;
 	gFragShaderDir = fragShaderDir;
+	gHeight = height;
+	gWidth = width;
 }
-void Renderer::Render(GLsizei height, GLsizei width) {
-	Draw(height, width);
+void Renderer::PreDraw() {
+
+	VertexSpecification();
+
 }
-void Renderer::Draw(GLsizei height, GLsizei width) {
-
-
+void Renderer::Draw() {
 
 	// Pre Draw
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
-	glViewport(0, 0, height, width);
+	glViewport(0, 0, gHeight, gWidth);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 

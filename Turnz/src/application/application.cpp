@@ -52,23 +52,23 @@ Application::Application(
 	void (*onClosePointer)()
 ){ 
 
-	Init(title, w, h); 
+	Init(title, w, h); // Initialize SDL2 and ( OpenGL / GLAD )
 
-	renderer = Renderer(vertexShaderDirectory, fragmentShaderDirectory);
-	renderer.VertexSpecification();
-	renderer.CreateGraphicsPipline();
+	renderer = Renderer(vertexShaderDirectory,fragmentShaderDirectory,w,h); // Create Renderer and Pass in Shader files
+	renderer.CreateGraphicsPipline(); // Compile and Bind Shaders
+	renderer.PreDraw();
 
-	if(startPointer!=NULL) startPointer();
+	if(startPointer!=NULL) startPointer(); // Run Start Function
 
 	while (!Input::GetInput(Input::KeyCode::QUIT)) {
-		SDL_PollEvent(&Input::event);
-		if (updatePointer != NULL) updatePointer();
-		renderer.Render(w,h);
-		SDL_GL_SwapWindow(window);
+		SDL_PollEvent(&Input::event); // Get Input
+		if (updatePointer != NULL) updatePointer(); // Run Update Function
+		renderer.Draw(); // Draw to the Screen
+		SDL_GL_SwapWindow(window); // Swap Buffers
 	}
 
-	if (onClosePointer != NULL) onClosePointer();
-	Close();
+	if (onClosePointer != NULL) onClosePointer(); // Run OnClose Function
+	Close(); // Close down the App
 }
 Application::~Application(){}
 
