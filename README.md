@@ -13,8 +13,7 @@ you rotate the game board to make the blob fall into the end point.
 1. OpenGL
 2. SDL2
 3. GLAD
-
-Note : Math Header Created by Zbindev ( Me )
+4. GLM
 
 ### Resources :
 1. https://learnopengl.com/
