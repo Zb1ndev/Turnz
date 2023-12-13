@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <map>
 
 class Input {
 public:
@@ -11,7 +12,11 @@ public:
 		SPACE, ESCAPE, UP, DOWN, LEFT, RIGHT, RIGHT_SHIFT, LEFT_SHIFT, RIGHT_CONTROL, LEFT_CONTROL,
 		ENTER, TAB, LEFT_ALT, RIGHT_ALT, BACKSPACE
 	};
-	bool static GetInput(KeyCode key);
+	static std::map<KeyCode, bool> keyStates;
+	static void InitKeyStates();
+
+	static const Uint8* keyboadStateArray;
+	static void UpdateInput();
 	static SDL_Event event;
 
 };

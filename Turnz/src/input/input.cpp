@@ -1,124 +1,103 @@
 #include <SDL2/SDL.h>
+
+#include <map>
+
 #include "input.h"
 
 SDL_Event Input::event;
+const Uint8* Input::keyboadStateArray;
+std::map<Input::KeyCode, bool> Input::keyStates;
 
-bool Input::GetInput(Input::KeyCode key) {
+void Input::InitKeyStates() {
+	keyStates = std::map<KeyCode, bool>{
 
-	switch (key) {
+		{Input::QUIT, false}, {Input::ANY, false}, {Input::TAB, false},
+		{Input::BACKSPACE, false}, {Input::SPACE, false},
+		{Input::ENTER, false}, {Input::ESCAPE, false},
 
-		// App Buttons
-		case Input::KeyCode::QUIT:
-			return event.type == SDL_QUIT;
-		case Input::KeyCode::ANY:
-			return event.type == SDL_KEYDOWN;
+		{Input::ALPHA_0, false}, {Input::ALPHA_1, false}, {Input::ALPHA_2, false},
+		{Input::ALPHA_3, false}, {Input::ALPHA_4, false}, {Input::ALPHA_5, false}, 
+		{Input::ALPHA_6, false}, {Input::ALPHA_7, false}, {Input::ALPHA_8, false}, 
+		{Input::ALPHA_9, false}, 
+		
+		{Input::LEFT_ALT, false}, {Input::LEFT_CONTROL, false}, {Input::LEFT_SHIFT, false},
+		{Input::RIGHT_ALT, false}, {Input::RIGHT_CONTROL, false}, {Input::RIGHT_SHIFT, false}, 
 
-		// Keyboard Input
-		case Input::KeyCode::RIGHT_ALT:
-			return event.key.keysym.sym == SDLK_RALT;
-		case Input::KeyCode::LEFT_ALT:
-			return event.key.keysym.sym == SDLK_LALT;
-		case Input::KeyCode::ENTER:
-			return event.key.keysym.sym == SDLK_RETURN;
-		case Input::KeyCode::TAB:
-			return event.key.keysym.sym == SDLK_TAB;
-		case Input::KeyCode::BACKSPACE:
-			return event.key.keysym.sym == SDLK_BACKSPACE;
-		case Input::KeyCode::SPACE:
-			return event.key.keysym.sym == SDLK_SPACE;
-		case Input::KeyCode::ESCAPE:
-			return event.key.keysym.sym == SDLK_ESCAPE;
-		case Input::KeyCode::UP:
-			return event.key.keysym.sym == SDLK_UP;
-		case Input::KeyCode::DOWN:
-			return event.key.keysym.sym == SDLK_DOWN;
-		case Input::KeyCode::LEFT:
-			return event.key.keysym.sym == SDLK_LEFT;
-		case Input::KeyCode::RIGHT:
-			return event.key.keysym.sym == SDLK_RIGHT;
-		case Input::KeyCode::RIGHT_SHIFT:
-			return event.key.keysym.sym == SDLK_RSHIFT;
-		case Input::KeyCode::LEFT_SHIFT:
-			return event.key.keysym.sym == SDLK_LSHIFT;
-		case Input::KeyCode::RIGHT_CONTROL:
-			return event.key.keysym.sym == SDLK_RCTRL;
-		case Input::KeyCode::LEFT_CONTROL:
-			return event.key.keysym.sym == SDLK_LCTRL;
-		case Input::KeyCode::ALPHA_0:
-			return event.key.keysym.sym == SDLK_0;
-		case Input::KeyCode::ALPHA_1:
-			return event.key.keysym.sym == SDLK_1;
-		case Input::KeyCode::ALPHA_2:
-			return event.key.keysym.sym == SDLK_2;
-		case Input::KeyCode::ALPHA_3:
-			return event.key.keysym.sym == SDLK_3;
-		case Input::KeyCode::ALPHA_4:
-			return event.key.keysym.sym == SDLK_4;
-		case Input::KeyCode::ALPHA_5:
-			return event.key.keysym.sym == SDLK_5;
-		case Input::KeyCode::ALPHA_6:
-			return event.key.keysym.sym == SDLK_6;
-		case Input::KeyCode::ALPHA_7:
-			return event.key.keysym.sym == SDLK_7;
-		case Input::KeyCode::ALPHA_8:
-			return event.key.keysym.sym == SDLK_8;
-		case Input::KeyCode::ALPHA_9:
-			return event.key.keysym.sym == SDLK_9;
-		case Input::KeyCode::A:
-			return event.key.keysym.sym == SDLK_a;
-		case Input::KeyCode::B:
-			return event.key.keysym.sym == SDLK_b;
-		case Input::KeyCode::C:
-			return event.key.keysym.sym == SDLK_c;
-		case Input::KeyCode::D:
-			return event.key.keysym.sym == SDLK_d;
-		case Input::KeyCode::E:
-			return event.key.keysym.sym == SDLK_e;
-		case Input::KeyCode::F:
-			return event.key.keysym.sym == SDLK_f;
-		case Input::KeyCode::G:
-			return event.key.keysym.sym == SDLK_g;
-		case Input::KeyCode::H:
-			return event.key.keysym.sym == SDLK_h;
-		case Input::KeyCode::I:
-			return event.key.keysym.sym == SDLK_i;
-		case Input::KeyCode::J:
-			return event.key.keysym.sym == SDLK_j;
-		case Input::KeyCode::K:
-			return event.key.keysym.sym == SDLK_k;
-		case Input::KeyCode::L:
-			return event.key.keysym.sym == SDLK_l;
-		case Input::KeyCode::M:
-			return event.key.keysym.sym == SDLK_m;
-		case Input::KeyCode::N:
-			return event.key.keysym.sym == SDLK_n;
-		case Input::KeyCode::O:
-			return event.key.keysym.sym == SDLK_o;
-		case Input::KeyCode::P:
-			return event.key.keysym.sym == SDLK_p;
-		case Input::KeyCode::Q:
-			return event.key.keysym.sym == SDLK_q;
-		case Input::KeyCode::R:
-			return event.key.keysym.sym == SDLK_r;
-		case Input::KeyCode::S:
-			return event.key.keysym.sym == SDLK_s;
-		case Input::KeyCode::T:
-			return event.key.keysym.sym == SDLK_t;
-		case Input::KeyCode::U:
-			return event.key.keysym.sym == SDLK_u;
-		case Input::KeyCode::V:
-			return event.key.keysym.sym == SDLK_v;
-		case Input::KeyCode::W:
-			return event.key.keysym.sym == SDLK_w;
-		case Input::KeyCode::X:
-			return event.key.keysym.sym == SDLK_x;
-		case Input::KeyCode::Y:
-			return event.key.keysym.sym == SDLK_y;
-		case Input::KeyCode::Z:
-			return event.key.keysym.sym == SDLK_z;
+		{Input::UP, false}, {Input::DOWN, false}, {Input::LEFT, false}, {Input::RIGHT, false},
+
+		{Input::A, false},{Input::B, false},{Input::C, false},{Input::D, false},{Input::E, false},
+		{Input::F, false},{Input::G, false},{Input::H, false},{Input::I, false},{Input::J, false},
+		{Input::K, false},{Input::L, false},{Input::M, false},{Input::N, false},{Input::O, false},
+		{Input::P, false},{Input::Q, false},{Input::R, false},{Input::S, false},{Input::T, false},
+		{Input::U, false},{Input::V, false},{Input::W, false},{Input::X, false},{Input::Y, false},
+		{Input::Z, false}
+
+	};
+}
+void Input::UpdateInput() {
+
+	Input::keyboadStateArray = SDL_GetKeyboardState(NULL);
+	SDL_PollEvent(&Input::event);
+
+	keyStates[ANY] = (event.type == SDL_KEYDOWN);
+	keyStates[QUIT] = (event.type == SDL_QUIT);
+
+	if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+
+		keyStates[ENTER] = keyboadStateArray[SDL_SCANCODE_RETURN];
+		keyStates[BACKSPACE] = keyboadStateArray[SDL_SCANCODE_BACKSPACE];
+		keyStates[SPACE] = keyboadStateArray[SDL_SCANCODE_SPACE];
+		keyStates[TAB] = keyboadStateArray[SDL_SCANCODE_TAB];
+		keyStates[ESCAPE] = keyboadStateArray[SDL_SCANCODE_ESCAPE];
+			
+		keyStates[LEFT_SHIFT] = keyboadStateArray[SDL_SCANCODE_LSHIFT];
+		keyStates[LEFT_CONTROL] = keyboadStateArray[SDL_SCANCODE_LCTRL];
+		keyStates[LEFT_ALT] = keyboadStateArray[SDL_SCANCODE_LALT];
+		keyStates[LEFT] = keyboadStateArray[SDL_SCANCODE_LEFT];
+
+		keyStates[RIGHT_SHIFT] = keyboadStateArray[SDL_SCANCODE_RSHIFT];
+		keyStates[RIGHT_CONTROL] = keyboadStateArray[SDL_SCANCODE_RCTRL];
+		keyStates[RIGHT_ALT] = keyboadStateArray[SDL_SCANCODE_RALT];
+		keyStates[RIGHT] = keyboadStateArray[SDL_SCANCODE_RIGHT];
+
+		keyStates[ALPHA_0] = keyboadStateArray[SDL_SCANCODE_0];
+		keyStates[ALPHA_1] = keyboadStateArray[SDL_SCANCODE_1];
+		keyStates[ALPHA_2] = keyboadStateArray[SDL_SCANCODE_2];
+		keyStates[ALPHA_3] = keyboadStateArray[SDL_SCANCODE_3];
+		keyStates[ALPHA_4] = keyboadStateArray[SDL_SCANCODE_4];
+		keyStates[ALPHA_5] = keyboadStateArray[SDL_SCANCODE_5];
+		keyStates[ALPHA_6] = keyboadStateArray[SDL_SCANCODE_6];
+		keyStates[ALPHA_7] = keyboadStateArray[SDL_SCANCODE_7];
+		keyStates[ALPHA_8] = keyboadStateArray[SDL_SCANCODE_8];
+		keyStates[ALPHA_9] = keyboadStateArray[SDL_SCANCODE_9];
+
+		keyStates[A] = keyboadStateArray[SDL_SCANCODE_A];
+		keyStates[B] = keyboadStateArray[SDL_SCANCODE_B];
+		keyStates[C] = keyboadStateArray[SDL_SCANCODE_C];
+		keyStates[D] = keyboadStateArray[SDL_SCANCODE_D];
+		keyStates[E] = keyboadStateArray[SDL_SCANCODE_E];
+		keyStates[F] = keyboadStateArray[SDL_SCANCODE_F];
+		keyStates[G] = keyboadStateArray[SDL_SCANCODE_G];
+		keyStates[H] = keyboadStateArray[SDL_SCANCODE_H];
+		keyStates[I] = keyboadStateArray[SDL_SCANCODE_I];
+		keyStates[J] = keyboadStateArray[SDL_SCANCODE_J];
+		keyStates[K] = keyboadStateArray[SDL_SCANCODE_K];
+		keyStates[L] = keyboadStateArray[SDL_SCANCODE_L];
+		keyStates[M] = keyboadStateArray[SDL_SCANCODE_M];
+		keyStates[N] = keyboadStateArray[SDL_SCANCODE_N];
+		keyStates[O] = keyboadStateArray[SDL_SCANCODE_O];
+		keyStates[P] = keyboadStateArray[SDL_SCANCODE_P];
+		keyStates[Q] = keyboadStateArray[SDL_SCANCODE_Q];
+		keyStates[R] = keyboadStateArray[SDL_SCANCODE_R];
+		keyStates[S] = keyboadStateArray[SDL_SCANCODE_S];
+		keyStates[T] = keyboadStateArray[SDL_SCANCODE_T];
+		keyStates[U] = keyboadStateArray[SDL_SCANCODE_U];
+		keyStates[V] = keyboadStateArray[SDL_SCANCODE_V];
+		keyStates[W] = keyboadStateArray[SDL_SCANCODE_W];
+		keyStates[X] = keyboadStateArray[SDL_SCANCODE_X];
+		keyStates[Y] = keyboadStateArray[SDL_SCANCODE_Y];
+		keyStates[Z] = keyboadStateArray[SDL_SCANCODE_Z];
 
 	}
 
-	return false; 
-		
 }

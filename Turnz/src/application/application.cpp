@@ -1,10 +1,15 @@
 #include <SDL2/SDL.h>
 #include <GLAD/glad.h>
+
 #include <iostream>
 #include <vector>
+
 #include "application.h"
 #include "../renderer/renderer.h"
 #include "../input/input.h"
+
+Application* Application::instance;
+Renderer::Scene* Application::currentScene;
 
 const char* Application::Init(const char* title, int w, int h) {
 
@@ -32,6 +37,9 @@ const char* Application::Init(const char* title, int w, int h) {
 	// Get All OpenGL functions
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) return "GLAD was not initialized";
 
+	// Initialize Input States
+	Input::InitKeyStates();
+
 }
 
 void Application::Close() {
@@ -43,25 +51,34 @@ void Application::Close() {
 }
 
 Application::Application(
-	const char* title, 
-	int w, int h, 
+	const char* title,
+	int w, int h,
 	std::string vertexShaderDirectory,
 	std::string fragmentShaderDirectory,
+	Renderer::Scene scene,
 	void (*startPointer)(), 
 	void (*updatePointer)(), 
 	void (*onClosePointer)()
 ){ 
 
+	instance = this;
+	currentScene = &scene;
+
 	Init(title, w, h); // Initialize SDL2 and ( OpenGL / GLAD )
 
-	renderer = Renderer(vertexShaderDirectory,fragmentShaderDirectory,w,h); // Create Renderer and Pass in Shader files
+	renderer = Renderer(
+		vertexShaderDirectory, 
+		fragmentShaderDirectory, 
+		w, h
+	); // Create Renderer and Pass in Shader files
+
 	renderer.CreateGraphicsPipline(); // Compile and Bind Shaders
 	renderer.PreDraw();
 
 	if(startPointer!=NULL) startPointer(); // Run Start Function
 
-	while (!Input::GetInput(Input::KeyCode::QUIT)) {
-		SDL_PollEvent(&Input::event); // Get Input
+	while (!Input::keyStates[Input::QUIT]) {
+		Input::UpdateInput();
 		if (updatePointer != NULL) updatePointer(); // Run Update Function
 		renderer.Draw(); // Draw to the Screen
 		SDL_GL_SwapWindow(window); // Swap Buffers
