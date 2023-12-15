@@ -23,7 +23,7 @@ void Start() {
 void Update() {
 
 	cube1Velocity = (cube->position.y > -0.7f) ? cube1Velocity + -0.0000004f : 0;
-	if (cube1Velocity == 0 && Input::keyStates[Input::SPACE]) cube1Velocity = 0.0005f;
+	if (cube1Velocity == 0 && Input::keyStates[Input::SPACE]) cube1Velocity = 0.0008f;
 	
 	// Move Cube 1
 	cube->position = glm::vec3(

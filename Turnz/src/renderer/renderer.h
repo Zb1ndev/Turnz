@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <GLAD/glad.h>
 #include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 
 #include <iostream>
 #include <vector>
@@ -17,8 +18,11 @@ public:
 		public:
 
 			const char* name;
-			glm::vec3 position;
+			bool physics = false;
+
+			glm::vec3 position; 
 			glm::vec3 scale;
+			glm::vec4 rotation;
 
 			GameObject();
 			GameObject(

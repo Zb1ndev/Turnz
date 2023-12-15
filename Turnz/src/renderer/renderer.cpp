@@ -39,12 +39,22 @@ std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 
 	int counter = 0;
 	std::vector<GLfloat> transformedVertexData = vertexData;
-	for (size_t i = 0; i < indexes.size(); i++){
-		counter++;
-		if (counter == 1) transformedVertexData[indexes[i]] = (position.x) + vertexData[indexes[i]];
-		if (counter == 2) transformedVertexData[indexes[i]] = (position.y) + vertexData[indexes[i]];
-		if (counter == 3) transformedVertexData[indexes[i]] = (position.z) + vertexData[indexes[i]];
-		if (counter == 3) counter = 0;
+	if (physics) {
+		// Per Vertex Velocity && Collision Calculations
+	} 
+	else {
+		for (size_t i = 0; i < indexes.size(); i++) {
+			counter++;
+			if (counter == 1)
+				transformedVertexData[indexes[i]] = (position.x) + vertexData[indexes[i]];
+			if (counter == 2)
+				transformedVertexData[indexes[i]] = (position.y) + vertexData[indexes[i]];
+			if (counter == 3) {
+				transformedVertexData[indexes[i]] = (position.z) + vertexData[indexes[i]];
+				counter = 0;
+			}
+		}
+
 	}
 
 	return transformedVertexData;
