@@ -36,6 +36,7 @@ public:
 private:
 
 	const char* Init(const char* title, int w, int h);
+	void UpdateWindowProperties();
 	void Close();
 
 };

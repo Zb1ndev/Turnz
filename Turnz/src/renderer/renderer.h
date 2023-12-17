@@ -29,7 +29,9 @@ public:
 				const char* kName,
 				glm::vec3 kPosition,
 				glm::vec3 kScale,
-				std::vector<GLfloat> kVertexData,
+				glm::vec4 kRotation,
+				std::vector<glm::vec4> kVertexPositions,
+				std::vector<glm::vec4> kVertexColors,
 				std::vector<GLuint> kIndexBufferData
 			);
 
@@ -38,7 +40,8 @@ public:
 
 		private:
 
-			std::vector<GLfloat> vertexData;
+			std::vector<glm::vec4> vertexPositions;
+			std::vector<glm::vec4> vertexColors;
 			std::vector<GLuint> indexBufferData;
 
 		};
@@ -49,11 +52,10 @@ public:
 
 	};
 
-	GLsizei gHeight;
-	GLsizei gWidth;
-
+	static float widthMultiplier;
+	static float heightMultiplier;
 	Renderer() = default;
-	Renderer(std::string vertShaderDir, std::string fragShaderDir, GLsizei height, GLsizei width);
+	Renderer(std::string vertShaderDir, std::string fragShaderDir);
 	void PreDraw();
 	void Draw();
 	void VertexSpecification();

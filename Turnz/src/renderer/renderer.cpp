@@ -1,6 +1,9 @@
 #include <SDL2/SDL.h>
 #include <GLAD/glad.h>
+
 #include <glm/vec3.hpp>
+#include <glm/matrix.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 #include <fstream>
@@ -12,48 +15,61 @@
 #include "../application/application.h"
 
 Renderer::Scene::GameObject::GameObject(){}
-Renderer::Scene::GameObject::GameObject(const char* kName,glm::vec3 kPosition,glm::vec3 kScale,std::vector<GLfloat> kVertexData,std::vector<GLuint> kIndexBufferData) {
+Renderer::Scene::GameObject::GameObject(const char* kName,glm::vec3 kPosition,glm::vec3 kScale, glm::vec4 kRotation, std::vector<glm::vec4> kVertexPositions, std::vector<glm::vec4> kVertexColors,std::vector<GLuint> kIndexBufferData) {
 	name = kName;
 	position = kPosition;
 	scale = kScale;
-	vertexData = kVertexData;
+	rotation = kRotation;
+	vertexPositions = kVertexPositions;
+	vertexColors = kVertexColors;
 	indexBufferData = kIndexBufferData;
 }
 std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 
-	// To-do : make it so you can rotate and scale shit, also make it automatically do the IndexBufferData shit
-
-	size_t rowCounter = 0;
-	size_t size = this->vertexData.size() / 2;
-	std::vector<size_t> indexes;
-
-	for (size_t i = 0; i < size; i++) {
-		if (i == 0) indexes.push_back(0);
-		else {
-			if ((i % 3) == 0)
-				rowCounter++;
-			indexes.push_back(i + (rowCounter * 3));
-		}
-	}
-	size_t indexSize = indexes.size();
-
 	int counter = 0;
-	std::vector<GLfloat> transformedVertexData = vertexData;
-	if (physics) {
-		// Per Vertex Velocity && Collision Calculations
-	} 
-	else {
-		for (size_t i = 0; i < indexes.size(); i++) {
-			counter++;
-			if (counter == 1)
-				transformedVertexData[indexes[i]] = (position.x) + vertexData[indexes[i]];
-			if (counter == 2)
-				transformedVertexData[indexes[i]] = (position.y) + vertexData[indexes[i]];
-			if (counter == 3) {
-				transformedVertexData[indexes[i]] = (position.z) + vertexData[indexes[i]];
-				counter = 0;
-			}
+	std::vector<GLfloat> transformedVertexData;
+	glm::mat4 model(1.0f);
+
+	size_t size = vertexPositions.size();
+	for (size_t v=0; v<size; v++) {
+
+		glm::vec4 vertex = vertexPositions[(size-1)-v];
+
+		Renderer::widthMultiplier = (1.0f / (float)Application::instance->width) * 100;
+		Renderer::heightMultiplier = (1.0f / (float)Application::instance->height) * 100;
+
+		// Scale
+		glm::vec3 kScale = glm::vec3(
+			scale.x*Renderer::widthMultiplier,
+			scale.y*Renderer::heightMultiplier,
+			scale.z
+		);
+		model = glm::scale(glm::mat4(1.0f), kScale);
+		vertex = (model * vertex);
+
+		// Rotate
+		for (size_t i=0; i<3; i++){
+			model = glm::rotate(
+				glm::mat4(1.0f), 
+				glm::radians(i==0?rotation.x:i==1?rotation.y:rotation.z), 
+				glm::vec3(i==0?1:0, i==1?1:0, i==2?1:0)
+			);
+			vertex = (model * vertex);
 		}
+
+		// Translate
+		model = glm::translate(glm::mat4(1.0f), position);
+		vertex = (model * vertex);
+
+		// Add Transformed Vertex to transformedVertexData
+		for (size_t i=0; i<3; i++) {
+			transformedVertexData.push_back(i==0? vertex.x:i==1? vertex.y: vertex.z);
+		}
+		for (size_t i = 0; i < 3; i++) {
+			transformedVertexData.push_back(i==0?vertexColors[counter].r:i==1?vertexColors[counter].g:vertexColors[counter].b);
+		}
+
+		counter++;
 
 	}
 
@@ -114,11 +130,13 @@ std::vector<GLuint> Renderer::GetAllIndexBufferData() {
 
 }
 
-Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir, GLsizei height, GLsizei width) {
+
+float Renderer::widthMultiplier;
+float Renderer::heightMultiplier;
+
+Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir) {
 	gVertShaderDir = vertShaderDir;
 	gFragShaderDir = fragShaderDir;
-	gHeight = height;
-	gWidth = width;
 }
 void Renderer::PreDraw() {
 
@@ -142,10 +160,12 @@ void Renderer::PreDraw() {
 	glEnableVertexAttribArray(1); // Color
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (void*)(sizeof(GL_FLOAT) * 3));
 
+	std::cout << glGetError() << "\n";
+
 }
 void Renderer::Draw() {
 
-	glViewport(0, 0, gHeight, gWidth);
+	glViewport(0, 0, Application::instance->width, Application::instance->height);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -157,6 +177,8 @@ void Renderer::Draw() {
 		GL_UNSIGNED_INT, 
 		(void*)0
 	);
+
+	std::cout << glGetError() << "\n";
 
 }
 void Renderer::VertexSpecification() {

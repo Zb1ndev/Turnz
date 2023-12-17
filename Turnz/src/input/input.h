@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <glm/vec2.hpp>
 #include <map>
 
 class Input {
@@ -15,6 +16,8 @@ public:
 	static std::map<KeyCode, bool> keyStates;
 	static void InitKeyStates();
 
+	static glm::vec2 mousePosition;
+	static glm::vec2 MousePosToViewPort();
 	static const Uint8* keyboadStateArray;
 	static void UpdateInput();
 	static SDL_Event event;

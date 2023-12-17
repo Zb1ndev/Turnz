@@ -24,7 +24,7 @@ const char* Application::Init(const char* title, int w, int h) {
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 	// Create Window
-	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, 
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE| 
 		SDL_WINDOW_KEYBOARD_GRABBED | SDL_WINDOW_MOUSE_CAPTURE | SDL_WINDOW_OPENGL
 	);
@@ -40,6 +40,8 @@ const char* Application::Init(const char* title, int w, int h) {
 	// Initialize Input States
 	Input::InitKeyStates();
 
+	return "Done";
+
 }
 
 void Application::Close() {
@@ -49,6 +51,10 @@ void Application::Close() {
 	SDL_Quit();
 
 }
+void Application::UpdateWindowProperties() {
+	SDL_GetWindowSize(instance->window, &instance->width, &instance->height);
+}
+
 
 Application::Application(
 	const char* title,
@@ -59,17 +65,16 @@ Application::Application(
 	void (*startPointer)(), 
 	void (*updatePointer)(), 
 	void (*onClosePointer)()
-){ 
+) { 
 
 	instance = this;
 	currentScene = &scene;
 
-	Init(title, w, h); // Initialize SDL2 and ( OpenGL / GLAD )
+	std::cout << Init(title, w, h) << "\n"; // Initialize SDL2 and ( OpenGL / GLAD )
 
 	renderer = Renderer(
 		vertexShaderDirectory, 
-		fragmentShaderDirectory, 
-		w, h
+		fragmentShaderDirectory
 	); // Create Renderer and Pass in Shader files
 
 	renderer.CreateGraphicsPipline(); // Compile and Bind Shaders
@@ -78,6 +83,7 @@ Application::Application(
 	if(startPointer!=NULL) startPointer(); // Run Start Function
 
 	while (!Input::keyStates[Input::QUIT]) {
+		UpdateWindowProperties();
 		Input::UpdateInput();
 		if (updatePointer != NULL) updatePointer(); // Run Update Function
 		renderer.Draw(); // Draw to the Screen

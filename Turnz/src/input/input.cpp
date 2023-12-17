@@ -1,12 +1,22 @@
-#include <SDL2/SDL.h>
-
-#include <map>
-
 #include "input.h"
+#include "../application/application.h"
 
 SDL_Event Input::event;
 const Uint8* Input::keyboadStateArray;
+glm::vec2 Input::mousePosition;
 std::map<Input::KeyCode, bool> Input::keyStates;
+
+glm::vec2 Input::MousePosToViewPort() {
+
+	int windowX, windowY;
+	SDL_GetWindowPosition(Application::instance->window, &windowX, &windowY);
+
+	return glm::vec2(
+		((Input::mousePosition.x / Application::instance->width) * 2) - 1,
+		((-Input::mousePosition.y / Application::instance->height) * 2) + 1
+	);
+
+}
 
 void Input::InitKeyStates() {
 	keyStates = std::map<KeyCode, bool>{
@@ -38,6 +48,11 @@ void Input::UpdateInput() {
 
 	Input::keyboadStateArray = SDL_GetKeyboardState(NULL);
 	SDL_PollEvent(&Input::event);
+
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	mousePosition.x = x;
+	mousePosition.y = y;
 
 	keyStates[ANY] = (event.type == SDL_KEYDOWN);
 	keyStates[QUIT] = (event.type == SDL_QUIT);
