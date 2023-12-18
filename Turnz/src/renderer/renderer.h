@@ -20,7 +20,7 @@ public:
 			const char* name;
 			bool physics = false;
 
-			glm::vec3 position; 
+			glm::vec3 position;
 			glm::vec3 scale;
 			glm::vec4 rotation;
 
@@ -78,5 +78,5 @@ private:
 	GLuint CreateShaderProgram(const char* vertexShader, const char* fragmentShader);
 	std::vector<GLfloat> GetAllVertexData();
 	std::vector<GLuint> GetAllIndexBufferData();
-	
+
 };
