@@ -74,10 +74,6 @@ Renderer::Scene SceneInit() {
 					glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
 					glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
 					glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
-				},
-				std::vector<GLuint>{
-					0,1,2,
-					1,3,2
 				}
 			)
 		}

@@ -14,19 +14,18 @@
 #include "renderer.h"
 #include "../application/application.h"
 
+
 Renderer::Scene::GameObject::GameObject(){}
-Renderer::Scene::GameObject::GameObject(const char* kName,glm::vec3 kPosition,glm::vec3 kScale, glm::vec4 kRotation, std::vector<glm::vec4> kVertexPositions, std::vector<glm::vec4> kVertexColors,std::vector<GLuint> kIndexBufferData) {
+Renderer::Scene::GameObject::GameObject(const char* kName,glm::vec3 kPosition,glm::vec3 kScale, glm::vec4 kRotation, std::vector<glm::vec4> kVertexPositions, std::vector<glm::vec4> kVertexColors) {
 	name = kName;
 	position = kPosition;
 	scale = kScale;
 	rotation = kRotation;
 	vertexPositions = kVertexPositions;
 	vertexColors = kVertexColors;
-	indexBufferData = kIndexBufferData;
 }
 std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 
-	int counter = 0;
 	std::vector<GLfloat> transformedVertexData;
 	glm::mat4 model(1.0f);
 
@@ -34,6 +33,16 @@ std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 	for (size_t v=0; v<size; v++) {
 
 		glm::vec4 vertex = vertexPositions[(size-1)-v];
+
+		// Rotate
+		for (size_t i = 0; i < 3; i++) {
+			model = glm::rotate(
+				glm::mat4(1.0f),
+				glm::radians(i == 0 ? rotation.x : i == 1 ? rotation.y : rotation.z),
+				glm::vec3(i == 0 ? 1 : 0, i == 1 ? 1 : 0, i == 2 ? 1 : 0)
+			);
+			vertex = (model * vertex);
+		}
 
 		Renderer::widthMultiplier = (1.0f / (float)Application::instance->width) * 100;
 		Renderer::heightMultiplier = (1.0f / (float)Application::instance->height) * 100;
@@ -47,16 +56,6 @@ std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 		model = glm::scale(glm::mat4(1.0f), kScale);
 		vertex = (model * vertex);
 
-		// Rotate
-		for (size_t i=0; i<3; i++){
-			model = glm::rotate(
-				glm::mat4(1.0f), 
-				glm::radians(i==0?rotation.x:i==1?rotation.y:rotation.z), 
-				glm::vec3(i==0?1:0, i==1?1:0, i==2?1:0)
-			);
-			vertex = (model * vertex);
-		}
-
 		// Translate
 		model = glm::translate(glm::mat4(1.0f), position);
 		vertex = (model * vertex);
@@ -66,15 +65,22 @@ std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 			transformedVertexData.push_back(i==0? vertex.x:i==1? vertex.y: vertex.z);
 		}
 		for (size_t i = 0; i < 3; i++) {
-			transformedVertexData.push_back(i==0?vertexColors[counter].r:i==1?vertexColors[counter].g:vertexColors[counter].b);
+			transformedVertexData.push_back(i==0?vertexColors[v].r:i==1?vertexColors[v].g:vertexColors[v].b);
 		}
-
-		counter++;
 
 	}
 
 	return transformedVertexData;
 
+}
+std::vector<GLuint> Renderer::Scene::GameObject::GetIndexBufferData() { 
+	// Generate this stuff
+	std::vector<GLuint> kIndexBufferData;
+	for (GLuint i = 0; i < ((int)(GetVertexData().size() / 2)) - 2; ++i) {
+		GLuint indexes[]{ 0, i + 1, i + 2 };
+		kIndexBufferData.insert(kIndexBufferData.end(), indexes, indexes + 3);
+	}
+	return kIndexBufferData;
 }
 
 GLuint Renderer::Scene::GetVerticies() {

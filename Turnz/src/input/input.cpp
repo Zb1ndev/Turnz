@@ -51,8 +51,8 @@ void Input::UpdateInput() {
 
 	int x, y;
 	SDL_GetMouseState(&x, &y);
-	mousePosition.x = x;
-	mousePosition.y = y;
+	mousePosition.x = (float)x;
+	mousePosition.y = (float)y;
 
 	keyStates[ANY] = (event.type == SDL_KEYDOWN);
 	keyStates[QUIT] = (event.type == SDL_QUIT);
