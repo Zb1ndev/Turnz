@@ -16,8 +16,7 @@ you rotate the game board to make the blob fall into the end point.
 4. GLM
 
 ### Resources :
-1. https://learnopengl.com/
-2. https://www.youtube.com/playlist?list=PLvv0ScY6vfd9zlZkIIqGDeG5TUWswkMox
+1. https://www.youtube.com/playlist?list=PLvv0ScY6vfd9zlZkIIqGDeG5TUWswkMox
 
 ### Uh oh
 So basically, I have "accidentally" started turning this into a game engine.
