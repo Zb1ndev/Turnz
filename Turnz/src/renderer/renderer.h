@@ -31,9 +31,11 @@ public:
 				glm::vec3 kScale,
 				glm::vec4 kRotation,
 				std::vector<glm::vec4> kVertexPositions,
-				std::vector<glm::vec4> kVertexColors
+				std::vector<glm::vec4> kVertexColors,
+				std::vector<GLuint> kIndexBufferData
 			);
 
+			std::vector<GLuint> indexBufferData;
 			std::vector<GLuint> GetIndexBufferData();
 			std::vector<GLfloat> GetVertexData();
 
@@ -46,6 +48,7 @@ public:
 
 		std::vector<GameObject> hierarchy;
 		GLuint GetVerticies();
+		GameObject GetGameObject(const char* kName);
 		Scene(std::vector<GameObject> kHierarchy);
 
 	};

@@ -40,7 +40,7 @@ const char* Application::Init(const char* title, int w, int h) {
 	// Initialize Input States
 	Input::InitKeyStates();
 
-	return "Done";
+	return "Finished Initializing";
 
 }
 

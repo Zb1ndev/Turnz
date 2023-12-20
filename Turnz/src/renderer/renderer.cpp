@@ -14,15 +14,24 @@
 #include "renderer.h"
 #include "../application/application.h"
 
-
+/*                        GameObject                         */
 Renderer::Scene::GameObject::GameObject(){}
-Renderer::Scene::GameObject::GameObject(const char* kName,glm::vec3 kPosition,glm::vec3 kScale, glm::vec4 kRotation, std::vector<glm::vec4> kVertexPositions, std::vector<glm::vec4> kVertexColors) {
+Renderer::Scene::GameObject::GameObject(
+	const char* kName,
+	glm::vec3 kPosition,
+	glm::vec3 kScale, 
+	glm::vec4 kRotation, 
+	std::vector<glm::vec4> kVertexPositions, 
+	std::vector<glm::vec4> kVertexColors, 
+	std::vector<GLuint> kIndexBufferData) 
+{
 	name = kName;
 	position = kPosition;
 	scale = kScale;
 	rotation = kRotation;
 	vertexPositions = kVertexPositions;
 	vertexColors = kVertexColors;
+	indexBufferData = kIndexBufferData;
 }
 std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 
@@ -74,15 +83,10 @@ std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 
 }
 std::vector<GLuint> Renderer::Scene::GameObject::GetIndexBufferData() { 
-	// Generate this stuff
-	std::vector<GLuint> kIndexBufferData;
-	for (GLuint i = 0; i < ((int)(GetVertexData().size() / 2)) - 2; ++i) {
-		GLuint indexes[]{ 0, i + 1, i + 2 };
-		kIndexBufferData.insert(kIndexBufferData.end(), indexes, indexes + 3);
-	}
-	return kIndexBufferData;
+	return indexBufferData;
 }
 
+/*                          Scene                            */
 GLuint Renderer::Scene::GetVerticies() {
 	std::vector<GLuint> data = Application::instance->renderer.GetAllIndexBufferData();
 	GLuint highest = 0;
@@ -90,10 +94,22 @@ GLuint Renderer::Scene::GetVerticies() {
 		if (var > highest) highest = var;
 	return highest;
 }
+Renderer::Scene::GameObject Renderer::Scene::GetGameObject(const char* kName) {
+	for (size_t i = 0; i < hierarchy.size(); i++)
+		if (hierarchy[i].name == kName) return hierarchy[i];
+	return GameObject();
+}
 Renderer::Scene::Scene(std::vector<GameObject> kHeirarchy) {
 	hierarchy = kHeirarchy;
 }
 
+/*                          Renderer                            */
+float Renderer::widthMultiplier;
+float Renderer::heightMultiplier;
+Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir) {
+	gVertShaderDir = vertShaderDir;
+	gFragShaderDir = fragShaderDir;
+}
 std::vector<GLfloat> Renderer::GetAllVertexData() {
 
 	std::vector<GLfloat> result;
@@ -135,15 +151,6 @@ std::vector<GLuint> Renderer::GetAllIndexBufferData() {
 	return result;
 
 }
-
-
-float Renderer::widthMultiplier;
-float Renderer::heightMultiplier;
-
-Renderer::Renderer(std::string vertShaderDir, std::string fragShaderDir) {
-	gVertShaderDir = vertShaderDir;
-	gFragShaderDir = fragShaderDir;
-}
 void Renderer::PreDraw() {
 
 	glDisable(GL_DEPTH_TEST);
@@ -166,8 +173,6 @@ void Renderer::PreDraw() {
 	glEnableVertexAttribArray(1); // Color
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (void*)(sizeof(GL_FLOAT) * 3));
 
-	std::cout << glGetError() << "\n";
-
 }
 void Renderer::Draw() {
 
@@ -183,8 +188,6 @@ void Renderer::Draw() {
 		GL_UNSIGNED_INT, 
 		(void*)0
 	);
-
-	std::cout << glGetError() << "\n";
 
 }
 void Renderer::VertexSpecification() {
