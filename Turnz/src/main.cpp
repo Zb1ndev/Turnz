@@ -93,8 +93,8 @@ int main(int argc, char** argv) {
 	Application app = Application(
 		"Turnz",
 		600, 600,
-		"./Turnz/Turnz/src/shaders/vertex.glsl",
-		"./Turnz/Turnz/src/shaders/fragment.glsl",
+		"./Turnz/Turnz/src/vertex.glsl",
+		"./Turnz/Turnz/src/fragment.glsl",
 		SceneInit(),
 		&Start,
 		&Update,
