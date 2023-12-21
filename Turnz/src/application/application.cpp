@@ -88,6 +88,7 @@ Application::Application(
 		if (updatePointer != NULL) updatePointer(); // Run Update Function
 		renderer.Draw(); // Draw to the Screen
 		SDL_GL_SwapWindow(window); // Swap Buffers
+		currentScene->CheckCollision();
 	}
 
 	if (onClosePointer != NULL) onClosePointer(); // Run OnClose Function

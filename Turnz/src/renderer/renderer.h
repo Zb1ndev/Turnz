@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <string>
 
 class Renderer {
@@ -35,9 +36,14 @@ public:
 				std::vector<GLuint> kIndexBufferData
 			);
 
+			std::vector<GameObject> collisions;
+			bool colliding = false;
+			glm::vec3 bounds;
+
 			std::vector<GLuint> indexBufferData;
 			std::vector<GLuint> GetIndexBufferData();
 			std::vector<GLfloat> GetVertexData();
+			bool CompareBounds(GameObject kComp);
 
 		private:
 
@@ -47,9 +53,11 @@ public:
 		};
 
 		std::vector<GameObject> hierarchy;
+
 		GLuint GetVerticies();
 		GameObject GetGameObject(const char* kName);
 		Scene(std::vector<GameObject> kHierarchy);
+		void CheckCollision();
 
 	};
 

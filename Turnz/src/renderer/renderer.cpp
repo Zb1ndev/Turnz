@@ -23,8 +23,9 @@ Renderer::Scene::GameObject::GameObject(
 	glm::vec4 kRotation, 
 	std::vector<glm::vec4> kVertexPositions, 
 	std::vector<glm::vec4> kVertexColors, 
-	std::vector<GLuint> kIndexBufferData) 
-{
+	std::vector<GLuint> kIndexBufferData
+){
+
 	name = kName;
 	position = kPosition;
 	scale = kScale;
@@ -32,6 +33,7 @@ Renderer::Scene::GameObject::GameObject(
 	vertexPositions = kVertexPositions;
 	vertexColors = kVertexColors;
 	indexBufferData = kIndexBufferData;
+
 }
 std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 
@@ -85,6 +87,23 @@ std::vector<GLfloat> Renderer::Scene::GameObject::GetVertexData() {
 std::vector<GLuint> Renderer::Scene::GameObject::GetIndexBufferData() { 
 	return indexBufferData;
 }
+bool Renderer::Scene::GameObject::CompareBounds(Renderer::Scene::GameObject kComp) {
+
+	// In the future make it so the thing doesnt crash when I add a gameobject to the vector
+
+	if (name == kComp.name) return false;
+	
+	float distanceX = glm::abs(position.x - kComp.position.x);
+	float distanceY = glm::abs(position.y - kComp.position.y);
+	if (distanceX < ((kComp.bounds.x * 0.36f) * Renderer::widthMultiplier) &&
+		distanceY < ((kComp.bounds.y * 0.6f) * Renderer::heightMultiplier)
+	) {
+		return true;
+	}
+
+	return false;
+
+}
 
 /*                          Scene                            */
 GLuint Renderer::Scene::GetVerticies() {
@@ -98,6 +117,13 @@ Renderer::Scene::GameObject Renderer::Scene::GetGameObject(const char* kName) {
 	for (size_t i = 0; i < hierarchy.size(); i++)
 		if (hierarchy[i].name == kName) return hierarchy[i];
 	return GameObject();
+}
+void Renderer::Scene::CheckCollision() {
+	for (size_t g = 0; g < hierarchy.size(); g++) {
+		for (size_t c = 0; c < hierarchy.size(); c++) {
+			hierarchy[g].colliding = hierarchy[g].CompareBounds(hierarchy[c]);
+		}
+	}
 }
 Renderer::Scene::Scene(std::vector<GameObject> kHeirarchy) {
 	hierarchy = kHeirarchy;
